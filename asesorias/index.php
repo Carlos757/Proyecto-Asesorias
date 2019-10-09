@@ -2,19 +2,19 @@
 <html>
 <head>
 	<title>Plataforma de asesorias</title>
-	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
 	<script src="https://kit.fontawesome.com/a81368914c.js"></script>
 </head>
 <body>
-	<img class="wave" src="img/w2.png">
+	<img class="wave" src="assets/img/w2.png">
 	<div class="container">
 		<div class="img">
-			<img src="img/book.svg">
+			<img src="assets/img/book.svg">
 		</div>
 		<div class="login-content">
-			<form action="index.html">
-				<img src="img/logo2.png">
+			<form action="inicio.php">
+				<img src="assets/img/logo2.png">
 				<h2 class="title">Iniciar sesion</h2>
            		<div class="input-div one">
            		   <div class="i">
@@ -34,11 +34,11 @@
            		    	<input type="password" class="input">
             	   </div>
             	</div>
-            	<a href="#">Nuevo usuario?</a>
+            	<a href="registro.php">Nuevo usuario?</a>
             	<input type="submit" class="btn" value="Entrar">
             </form>
         </div>
     </div>
-    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="assets/js/main.js"></script>
 </body>
 </html>
