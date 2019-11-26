@@ -23,6 +23,31 @@ $(document).ready(function(){
              "sProcessing":"Procesando...",
         }
     });
+    tablaPersonas = $("#tablaPersonas1").DataTable({
+        "columnDefs":[{
+         "targets": -1,
+         "data":null,
+         // "defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-primary btnInscribir'>Inscribirse</button><button class='btn btn-danger btnBorrar'>Borrar</button></div></div>"  
+         "defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-danger btnBorrar'>Baja</button></div></div>"  
+        }],
+         
+     "language": {
+             "lengthMenu": "Mostrar _MENU_ registros",
+             "zeroRecords": "No se encontraron resultados",
+             "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+             "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+             "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+             "sSearch": "Buscar:",
+             "oPaginate": {
+                 "sFirst": "Primero",
+                 "sLast":"Último",
+                 "sNext":"Siguiente",
+                 "sPrevious": "Anterior"
+              },
+              "sProcessing":"Procesando...",
+         }
+     })
+    
     
 $("#btnNuevo").click(function(){
     $("#formNuevaAsesoria").trigger("reset");
@@ -59,17 +84,18 @@ $(document).on("click", ".btnEditar", function(){
 //botón BORRAR
 $(document).on("click", ".btnBorrar", function(){    
     fila = $(this);
-    AsesoriaDatoID = parseInt($(this).closest("tr").find('td:eq(0)').text());
+    AsesoriaAltaID = parseInt($(this).closest("tr").find('td:eq(0)').text());
+    Materia = $(this).closest("tr").find('td:eq(2)').text();
     opcion = 3 //borrar
-    var respuesta = confirm("¿Está seguro de eliminar el registro: "+id+"?");
+    var respuesta = confirm("¿Está seguro que desea dar de baja la asesoria: "+Materia+"?");
     if(respuesta){
         $.ajax({
             url: "bd/crud.php",
             type: "POST",
             dataType: "json",
-            data: {opcion:opcion, id:id},
+            data: {opcion:opcion, AsesoriaAltaID:AsesoriaAltaID},
             success: function(){
-                tablaPersonas.row(fila.parents('tr')).remove().draw();
+                tablaPersonas1.row(fila.parents('tr')).remove().draw();
             }
         });
     }   

@@ -59,6 +59,13 @@ if($_SESSION["s_usuario"] === null){
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Inicio</span></a>
       </li>
+      <hr class="sidebar-divider">
+      <!-- Asesorias en curso -->
+      <li class="nav-item active">
+        <a class="nav-link" href="asesoriasEnCurso.php">
+          <i class="fas fa-fw fa-book-reader"></i>
+          <span>Asesorias en curso</span></a>
+      </li>
 
       <!-- Divider -->
       <hr class="sidebar-divider">

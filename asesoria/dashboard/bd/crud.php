@@ -10,6 +10,7 @@ $pais = (isset($_POST['pais'])) ? $_POST['pais'] : '';
 $edad = (isset($_POST['edad'])) ? $_POST['edad'] : '';
 $opcion = (isset($_POST['opcion'])) ? $_POST['opcion'] : '';
 $AsesoriaDatoID = (isset($_POST['AsesoriaDatoID'])) ? $_POST['AsesoriaDatoID'] : '';
+$AsesoriaAltaID = (isset($_POST['AsesoriaAltaID'])) ? $_POST['AsesoriaAltaID'] : '';
 $PersonaID = $_SESSION["PersonaID"];
 
 switch($opcion){
@@ -34,7 +35,7 @@ switch($opcion){
         $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
         break;        
     case 3://baja
-        $consulta = "DELETE FROM personas WHERE id='$id' ";		
+        $consulta = "DELETE FROM AsesoriaAltas WHERE AsesoriaAltaID = $AsesoriaAltaID ";		
         $resultado = $conexion->prepare($consulta);
         $resultado->execute();                           
         break;

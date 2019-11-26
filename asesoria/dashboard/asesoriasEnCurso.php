@@ -2,7 +2,7 @@
 
 <!--INICIO del cont principal-->
 <div class="container">
-    <h1>Asesorias disponibles</h1>
+    <h1>Asesorias en curso</h1>
    
         
     
@@ -12,11 +12,16 @@ $objeto = new Conexion();
 $conexion = $objeto->Conectar();
 $PersonaID = $_SESSION["PersonaID"];
 
-// asesorias disponibles
+// asesorias que esta llevando el estudiante
 $consulta = "
-SELECT *
-FROM vAsesorias v";
- 
+SELECT a.AsesoriaAltaID, Asesor,Materia,Aula,Fecha,Horario
+FROM vasesorias v 
+inner JOIN AsesoriaAltas a on v.AsesoriaDatoID = a.AsesoriaDatoID
+WHERE a.Asesorado = '$PersonaID'";
+
+
+
+
 $resultado = $conexion->prepare($consulta);
 $resultado->execute();
 $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
@@ -26,7 +31,7 @@ $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
 <div class="container">
         <div class="row">
             <div class="col-lg-12">            
-            <button id="btnNuevo" type="button" class="btn btn-success" data-toggle="modal">Nueva</button>    
+            <!-- <button id="btnNuevo" type="button" class="btn btn-success" data-toggle="modal">Nueva</button>     -->
             </div>    
         </div>    
     </div>    
@@ -35,7 +40,7 @@ $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
         <div class="row">
                 <div class="col-lg-12">
                     <div class="table-responsive">        
-                        <table id="tablaPersonas" class="table table-striped table-bordered table-condensed" style="width:100%;text-align: center;">
+                        <table id="tablaPersonas1" class="table table-striped table-bordered table-condensed" style="width:100%;text-align: center;">
                         <thead class="text-center">
                             <tr>
                                 <th>ID</th>
@@ -52,13 +57,14 @@ $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
                             foreach($data as $dat) {                                                        
                             ?>
                             <tr>
-                                <td><?php echo $dat['AsesoriaDatoID'] ?></td>
+                                <td><?php echo $dat['AsesoriaAltaID'] ?></td>
                                 <td><?php echo $dat['Asesor'] ?></td>
                                 <td><?php echo $dat['Materia'] ?></td>
                                 <td><?php echo $dat['Aula'] ?></td>
                                 <td><?php echo $dat['Fecha'] ?></td>    
                                 <td><?php echo $dat['Horario'] ?></td>    
                                 <td></td>
+                                
                             </tr>
                             <?php
                                 }
