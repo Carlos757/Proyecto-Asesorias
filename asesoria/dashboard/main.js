@@ -1,9 +1,10 @@
+
 $(document).ready(function(){
     tablaPersonas = $("#tablaPersonas").DataTable({
        "columnDefs":[{
         "targets": -1,
         "data":null,
-        // "defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-primary btnInscribir'>Inscribirse</button><button class='btn btn-danger btnBorrar'>Borrar</button></div></div>"  
+        // "defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-primary btnInscribir'>Inscribirse</button><button class='btn btn-danger btnBorrar reload'>Borrar</button></div></div>"  
         "defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-primary btnInscribir'>Inscribirse</button></div></div>"  
        }],
         
@@ -28,7 +29,7 @@ $(document).ready(function(){
          "targets": -1,
          "data":null,
          // "defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-primary btnInscribir'>Inscribirse</button><button class='btn btn-danger btnBorrar'>Borrar</button></div></div>"  
-         "defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-danger btnBorrar'>Baja</button></div></div>"  
+         "defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-danger btnBorrar '>Baja</button></div></div>"  
         }],
          
      "language": {
@@ -86,7 +87,7 @@ $(document).on("click", ".btnBorrar", function(){
     fila = $(this);
     AsesoriaAltaID = parseInt($(this).closest("tr").find('td:eq(0)').text());
     Materia = $(this).closest("tr").find('td:eq(2)').text();
-    opcion = 3 //borrar
+    opcion = 3 ;//borrar
     var respuesta = confirm("¿Está seguro que desea dar de baja la asesoria: "+Materia+"?");
     if(respuesta){
         $.ajax({
@@ -95,11 +96,21 @@ $(document).on("click", ".btnBorrar", function(){
             dataType: "json",
             data: {opcion:opcion, AsesoriaAltaID:AsesoriaAltaID},
             success: function(){
-                tablaPersonas1.row(fila.parents('tr')).remove().draw();
+                $(fila).fadeOut(200, function () {
+                    table
+                        .row($fila)
+                        .fnDeleteRow()
+                        .draw();                    
+                });         
             }
+            
         });
-    }   
+    }
 });
+
+$(document).on("click", ".reload", function(){    
+    window.location="index.php";
+    });
 //botón inscribir de asesoria
 $(document).on("click", ".btnInscribir", function(){    
     fila = $(this);
@@ -118,6 +129,68 @@ $(document).on("click", ".btnInscribir", function(){
             // }
         });
     }   
+});
+
+$('#formPass').submit(function(e){    
+    e.preventDefault();
+    var pass = $.trim($("#pass").val());    
+    var passConfirm =$.trim($("#passConfirm").val()); 
+    opcion = 2;  
+
+    if(pass.length == "" || passConfirm == ""){
+        Swal.fire({
+            icon:'warning',
+            title:'Debe de ingresar una contraseña',
+        });
+        return false; 
+      }else if(pass != passConfirm){
+        Swal.fire({
+            icon:'warning',
+            title:'Las contraseñas no coinciden',
+        });
+      }else{
+        Swal.fire({
+            title: '¿Estas seguro?',
+            text: "Estas a punto de cambiar la contraseña",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, cambiar!',
+            cancelButtonText: 'Cancelar'
+          }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url:"bd/crud.php",
+                    type:"POST",
+                    datatype: "json",
+                    data: {opcion:opcion,pass:pass}, 
+                    success:function(data){               
+                        if(data == "null"){
+                            Swal.fire({
+                                type:'error',
+                                title:'Contraseña incorrecta',
+                            });
+                        }else{
+                            Swal.fire(
+                                'Cambiada!',
+                                'La contraseña a cambiado.',
+                                'success'
+                            )//   .then((result) => {
+                            //     if(result.value){
+                            //         //window.location.href = "vistas/pag_inicio.php";
+                            //         window.location.href = "dashboard/index.php";
+                            //     }
+                            // })
+                            
+                        }
+                    }    
+                 });
+              
+            }
+          })
+      }
+    
 });
     
 $("#formNuevaAsesoria").submit(function(e){

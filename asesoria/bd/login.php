@@ -13,13 +13,24 @@ $password = (isset($_POST['password'])) ? $_POST['password'] : '';
 // $pass = md5($password); //encripto la clave enviada por el usuario para compararla con la clava encriptada y almacenada en la BD
 $pass = $password;
 
-$consulta = "SELECT u.UsuarioID,u.Usuario,u.Contraseña,p.PersonaID,concat_ws(' ', Nombre, Apellido) as Nombre from Usuarios u
+$consulta = "
+SELECT u.UsuarioID,u.Usuario,u.Contraseña,p.PersonaID,concat_ws(' ', Nombre, Apellido) as Nombre from Usuarios u
 inner join Personas p on p.UsuarioID = u.UsuarioID
+inner JOIN Alumnos a on p.PersonaID = a.PersonaID
 WHERE Usuario = '$usuario' AND Contraseña = '$pass' ";
 $resultado = $conexion->prepare($consulta);
 $resultado->execute();
 
+$consulta1 = "
+SELECT u.UsuarioID,u.Usuario,u.Contraseña,p.PersonaID,concat_ws(' ', Nombre, Apellido) as Nombre from Usuarios u
+inner join Personas p on p.UsuarioID = u.UsuarioID
+inner JOIN Profesores a on p.PersonaID = a.PersonaID
+WHERE Usuario = '$usuario' AND Contraseña = '$pass' ";
+$resultado1 = $conexion->prepare($consulta1);
+$resultado1->execute();
+
 $nombre = "";
+$tipo = "";
 
 if($resultado->rowCount() >= 1){
     $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
@@ -30,14 +41,19 @@ if($resultado->rowCount() >= 1){
      }
     $_SESSION["s_usuario"] = $nombre;
     $_SESSION["PersonaID"] = $id;
+    $_SESSION["tipo"] = "Alumno";
 
-    // $.ajax({
-    //     url:"dashboard/bd/crud.php",
-    //     type:"POST",
-    //     datatype: "json",
-    //     data: {id:$usuario}
-    //     }    
-    //  });
+
+}else if($resultado1->rowCount() >= 1){
+    $data = $resultado1->fetchAll(PDO::FETCH_ASSOC);
+    // $nombre = $row["Nombre"];
+    foreach ($data as $row) {
+        $nombre=$row["Nombre"];
+        $id=$row["PersonaID"];
+     }
+    $_SESSION["s_usuario"] = $nombre;
+    $_SESSION["PersonaID"] = $id;
+    $_SESSION["tipo"] = "Profesor";
 
 }else{
     $_SESSION["s_usuario"] = null;
@@ -47,6 +63,5 @@ if($resultado->rowCount() >= 1){
 print json_encode($data);
 $conexion=null;
 
-//usuarios de pruebaen la base de datos
-//usuario:admin pass:12345
-//usuario:demo pass:demo
+
+

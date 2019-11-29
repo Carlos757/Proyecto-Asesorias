@@ -12,6 +12,8 @@ $opcion = (isset($_POST['opcion'])) ? $_POST['opcion'] : '';
 $AsesoriaDatoID = (isset($_POST['AsesoriaDatoID'])) ? $_POST['AsesoriaDatoID'] : '';
 $AsesoriaAltaID = (isset($_POST['AsesoriaAltaID'])) ? $_POST['AsesoriaAltaID'] : '';
 $PersonaID = $_SESSION["PersonaID"];
+//recepción de datos enviados mediante POST desde ajax
+$pass = (isset($_POST['pass'])) ? $_POST['pass'] : '';
 
 switch($opcion){
     case 1: //alta
@@ -24,8 +26,13 @@ switch($opcion){
         $resultado->execute();
         $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
         break;
-    case 2: //modificación
-        $consulta = "UPDATE personas SET nombre='$nombre', pais='$pais', edad='$edad' WHERE id='$id' ";		
+    case 2: //modificación de contraseña
+        $consulta = "
+            UPDATE Usuarios u 
+            inner JOIN Personas p on p.UsuarioID = u.UsuarioID
+            SET Contraseña = '$pass'
+            WHERE p.PersonaID = '$PersonaID' ";
+                    
         $resultado = $conexion->prepare($consulta);
         $resultado->execute();        
         
