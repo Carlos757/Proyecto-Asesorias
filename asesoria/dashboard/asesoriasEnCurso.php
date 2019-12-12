@@ -1,8 +1,18 @@
-<?php require_once "vistas/parte_superior.php"?>
+<?php
+session_start();
+$tipo = $_SESSION["tipo"];
+if ($tipo == "Alumno"){
+    require_once "vistas/parte_superior.php"; 
+}
+
+if ($tipo == "Profesor") {
+    require_once "vistas/parte_superiorP.php";
+}
+?>
 
 <!--INICIO del cont principal-->
 <div class="container">
-    <h1>Asesorias en curso</h1>
+    <h1>Mis asesorias</h1>
    
         
     
@@ -27,6 +37,10 @@ $resultado->execute();
 $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 
 <div class="container">
         <div class="row">
@@ -75,41 +89,7 @@ $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
                 </div>
         </div>  
     </div>    
-      
-<!--Modal para CRUD-->
-<div class="modal fade" id="modalCRUD" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        <form id="formNuevaAsesoria">    
-            <div class="modal-body">
-                <div class="form-group">
-                <label for="nombre" class="col-form-label">Nombre:</label>
-                <input type="text" class="form-control" id="nombre">
-                </div>
-                <div class="form-group">
-                <label for="pais" class="col-form-label">País:</label>
-                <input type="text" class="form-control" id="pais">
-                </div>                
-                <div class="form-group">
-                <label for="edad" class="col-form-label">Edad:</label>
-                <input type="number" class="form-control" id="edad">
-                </div>            
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
-                <button type="submit" id="btnGuardar" class="btn btn-dark">Guardar</button>
-            </div>
-        </form>    
-        </div>
-    </div>
-</div>  
-      
-    
+          
     
 </div>
 <!--FIN del cont principal-->

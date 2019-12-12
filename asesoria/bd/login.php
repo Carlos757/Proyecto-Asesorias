@@ -30,9 +30,11 @@ $resultado1 = $conexion->prepare($consulta1);
 $resultado1->execute();
 
 $nombre = "";
-$tipo = "";
+// $tipo = "";
 
 if($resultado->rowCount() >= 1){
+    $_SESSION["tipo"] = "Alumno";
+    echo '<script>var tipoDato = '.json_encode($_SESSION["tipo"]).';</script>'; 
     $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
     // $nombre = $row["Nombre"];
     foreach ($data as $row) {
@@ -41,10 +43,11 @@ if($resultado->rowCount() >= 1){
      }
     $_SESSION["s_usuario"] = $nombre;
     $_SESSION["PersonaID"] = $id;
-    $_SESSION["tipo"] = "Alumno";
 
 
 }else if($resultado1->rowCount() >= 1){
+    $_SESSION["tipo"] = "Profesor";
+    echo '<script>var tipoDato = '.json_encode($_SESSION["tipo"]).';</script>'; 
     $data = $resultado1->fetchAll(PDO::FETCH_ASSOC);
     // $nombre = $row["Nombre"];
     foreach ($data as $row) {
@@ -53,7 +56,6 @@ if($resultado->rowCount() >= 1){
      }
     $_SESSION["s_usuario"] = $nombre;
     $_SESSION["PersonaID"] = $id;
-    $_SESSION["tipo"] = "Profesor";
 
 }else{
     $_SESSION["s_usuario"] = null;

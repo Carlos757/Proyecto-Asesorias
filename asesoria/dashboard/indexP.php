@@ -50,7 +50,7 @@ $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
         <div class="row">
                 <div class="col-lg-12">
                     <div class="table-responsive">        
-                        <table id="tablaPersonas" class="table table-striped table-bordered table-condensed" style="width:100%;text-align: center;">
+                        <table id="tablaPersonas3" class="table table-striped table-bordered table-condensed" style="width:100%;text-align: center;">
                         <thead class="text-center">
                             <tr>
                                 <th>ID</th>
@@ -59,7 +59,7 @@ $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
                                 <th>Aula</th>                                
                                 <th>Fecha</th>  
                                 <th>Horario</th>
-                                <th>Acciones</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -73,7 +73,7 @@ $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
                                 <td><?php echo $dat['Aula'] ?></td>
                                 <td><?php echo $dat['Fecha'] ?></td>    
                                 <td><?php echo $dat['Horario'] ?></td>    
-                                <td></td>
+                               
                             </tr>
                             <?php
                                 }

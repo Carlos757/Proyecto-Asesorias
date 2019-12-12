@@ -254,3 +254,17 @@ button:hover {
     padding: 77px 15px 33px 15px;
   }
 }
+
+.date-picker {
+  position: absolute;
+  z-index:1000;/*********** MY Change *************/
+  font-size: 1em;
+  color: #CCC;
+  text-align: center;
+  cursor: default;
+  
+  border: 1px solid #444;
+  border-radius: 2px;
+  margin: 6px 0;
+  background: #222;
+  box-shadow: 8px 8px 12px rgba(0, 0, 0, 0.2);} 

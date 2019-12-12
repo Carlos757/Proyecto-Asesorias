@@ -1,5 +1,14 @@
-<?php require_once "vistas/parte_superior.php"?>
+<?php
+session_start();
+$tipo = $_SESSION["tipo"];
+if ($tipo == "Alumno"){
+    require_once "vistas/parte_superior.php"; 
+}
 
+if ($tipo == "Profesor") {
+    require_once "vistas/parte_superiorP.php";
+}
+?>
 <!--INICIO del cont principal-->
 <div class="container">
     <h1>Perfil</h1>
@@ -57,7 +66,7 @@ if($resultado->rowCount() >= 1){
         $depaCarr=$row["Carrera"];
         $noContRfc=$row["NoControl"];
      }
-    $_SESSION["tipo"] = "Alumno";
+    // $_SESSION["tipo"] = "Alumno";
     $_SESSION["nombre"] = $nombre;
     $_SESSION["apellido"] = $apellido;
     $_SESSION["telefono"] = $telefono;
@@ -86,7 +95,7 @@ if($resultado->rowCount() >= 1){
     $_SESSION["correo"] = $correo;
     $_SESSION["usuario"] = $usuario;
     $_SESSION["pass"] = $contraseña;
-    $_SESSION["tipo"] = "Profesor";
+    // $_SESSION["tipo"] = "Profesor";
     $depaCarrNombre="Departamento:";
     $noContRfcNombre="RFC:";
     $tipo = "Profesor";
@@ -98,6 +107,11 @@ $conexion=null;
 
 
 ?>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 
 <div class="container">
   	<hr>
@@ -181,6 +195,7 @@ $conexion=null;
               <input class="form-control" type="password" id="passConfirm" value="">
             </div>
           </div>
+          
           <div class="form-group">
             <label class="col-md-3 control-label"></label>
             <div class="col-md-8">

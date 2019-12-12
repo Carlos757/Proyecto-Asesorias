@@ -2,7 +2,7 @@
 // session_start();
 
 if($_SESSION["s_usuario"] === null){
-    header("Location: ../index.php");
+    header("Location: ../indexP.php");
 }
 
 ?>
@@ -19,7 +19,7 @@ if($_SESSION["s_usuario"] === null){
   <meta name="author" content="">
 
   <title>Plataforma de asesorias</title>
-
+  
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
@@ -27,11 +27,11 @@ if($_SESSION["s_usuario"] === null){
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-  <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
     <!--datables CSS básico-->
     <link rel="stylesheet" type="text/css" href="vendor/datatables/datatables.min.css"/>
     <!--datables estilo bootstrap 4 CSS-->  
     <link rel="stylesheet"  type="text/css" href="vendor/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css">
+    
     
           
     
@@ -46,7 +46,7 @@ if($_SESSION["s_usuario"] === null){
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="indexP.php">
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-book"></i>
         </div>
@@ -58,27 +58,35 @@ if($_SESSION["s_usuario"] === null){
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="index.php">
+        <a class="nav-link" href="indexP.php">
           <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Inicio</span></a>
+          <h7>Inicio</h7></a>
       </li>
       <hr class="sidebar-divider">
       <!-- Asesorias en curso -->
       <div class="sidebar-heading">
-        Alumno
+        Profesor
       </div>
 
+
       <li class="nav-item active">
-        <a class="nav-link" href="asesoriasEnCurso.php">
+        <a class="nav-link" href="asesoriasEnCursoP.php">
           <i class="fas fa-fw fa-book-reader"></i>
-          <span>Mis asesorias</span></a>
+          <h7>Asesorias en curso</h6></a>
       </li>
-
-
-    
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
+
+      <li class="nav-item active">
+        <a class="nav-link" href="altaAsesoria.php">
+          <i class="fas fa-fw fa-book-medical"></i>
+          <h7>Nueva asesoria</h7></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+
 
       <!-- Sidebar Toggler (Sidebar) -->
       <div class="text-center d-none d-md-inline">

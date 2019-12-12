@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 $tipo = $_SESSION["tipo"];
@@ -13,7 +12,7 @@ if ($tipo == "Profesor") {
 
 <!--INICIO del cont principal-->
 <div class="container">
-    <h1>Asesorias disponibles</h1>
+    <h1>Asesorias en curso</h1>
    
         
     
@@ -22,12 +21,18 @@ include_once 'bd/conexion.php';
 $objeto = new Conexion();
 $conexion = $objeto->Conectar();
 $PersonaID = $_SESSION["PersonaID"];
+$Nombre = $_SESSION["s_usuario"];
 
-// asesorias disponibles
+// asesorias que esta llevando el estudiante
 $consulta = "
-SELECT *
-FROM vAsesorias v";
- 
+SELECT ad.AsesoriaDatoID,m.Nombre as Materia, s.Nombre as Aula,Fecha,concat_ws(' - ', HoraInicio, HoraFin) as Horario FROM AsesoriaDatos ad
+inner JOIN Materias m on m.MateriaID = ad.MateriaID
+inner JOIN Salones s on s.SalonID = ad.SalonID
+WHERE ad.AsesorID = '$PersonaID'";
+
+
+
+
 $resultado = $conexion->prepare($consulta);
 $resultado->execute();
 $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
@@ -45,16 +50,16 @@ $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
             </div>    
         </div>    
     </div>    
-    <br>  
+    <br>   
 <div class="container">
         <div class="row">
                 <div class="col-lg-12">
                     <div class="table-responsive">        
-                        <table id="tablaPersonas" class="table table-striped table-bordered table-condensed" style="width:100%;text-align: center;">
+                        <table id="tablaPersonas2" class="table table-striped table-bordered table-condensed" style="width:100%;text-align: center;">
                         <thead class="text-center">
                             <tr>
                                 <th>ID</th>
-                                <th>Asesor</th>
+                                <!-- <th>Asesor</th> -->
                                 <th>Materia</th>
                                 <th>Aula</th>                                
                                 <th>Fecha</th>  
@@ -68,12 +73,13 @@ $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
                             ?>
                             <tr>
                                 <td><?php echo $dat['AsesoriaDatoID'] ?></td>
-                                <td><?php echo $dat['Asesor'] ?></td>
+                                <!-- <td><?php echo $dat['Asesor'] ?></td> -->
                                 <td><?php echo $dat['Materia'] ?></td>
                                 <td><?php echo $dat['Aula'] ?></td>
                                 <td><?php echo $dat['Fecha'] ?></td>    
                                 <td><?php echo $dat['Horario'] ?></td>    
                                 <td></td>
+                                
                             </tr>
                             <?php
                                 }
@@ -84,7 +90,7 @@ $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
                 </div>
         </div>  
     </div>    
- 
+      
 </div>
 <!--FIN del cont principal-->
 <?php require_once "vistas/parte_inferior.php"?>

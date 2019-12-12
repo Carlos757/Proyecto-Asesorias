@@ -39,3 +39,6 @@ $('#formLogin').submit(function(e){
         });
     }     
 });
+$(document).ready(function() {
+    $('.datepicker').datepicker();
+})
