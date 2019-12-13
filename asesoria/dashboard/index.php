@@ -7,6 +7,7 @@ if ($tipo == "Alumno"){
 }
 
 if ($tipo == "Profesor") {
+    header('Location: indexP.php');
     require_once "vistas/parte_superiorP.php";
 }
 ?>
@@ -25,8 +26,12 @@ $PersonaID = $_SESSION["PersonaID"];
 
 // asesorias disponibles
 $consulta = "
-SELECT *
-FROM vAsesorias v";
+SELECT ad.AsesoriaDatoID, concat_ws(' ', p.Nombre, p.Apellido) as Asesor,m.Nombre as Materia,d.Nombre as Departamento,s.Nombre as Aula,Fecha ,concat_ws(' - ', HoraInicio, HoraFin) as Horario
+FROM AsesoriaDatos ad
+inner JOIN Personas p on ad.AsesorID = p.PersonaID
+inner JOIN Materias m on ad.MateriaID = m.MateriaID
+inner JOIN Salones s on ad.SalonID = s.SalonID
+inner JOIN Departamentos d on d.DepartamentoID = s.DepartamentoID";
  
 $resultado = $conexion->prepare($consulta);
 $resultado->execute();
@@ -37,6 +42,7 @@ $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
 <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<link rel="shortcut icon" type="image/x-icon" href="../faviconTec.ico">
 
 <div class="container">
         <div class="row">
@@ -56,6 +62,7 @@ $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
                                 <th>ID</th>
                                 <th>Asesor</th>
                                 <th>Materia</th>
+                                <th>Departamento</th>
                                 <th>Aula</th>                                
                                 <th>Fecha</th>  
                                 <th>Horario</th>
@@ -70,6 +77,7 @@ $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
                                 <td><?php echo $dat['AsesoriaDatoID'] ?></td>
                                 <td><?php echo $dat['Asesor'] ?></td>
                                 <td><?php echo $dat['Materia'] ?></td>
+                                <td><?php echo $dat['Departamento'] ?></td>
                                 <td><?php echo $dat['Aula'] ?></td>
                                 <td><?php echo $dat['Fecha'] ?></td>    
                                 <td><?php echo $dat['Horario'] ?></td>    

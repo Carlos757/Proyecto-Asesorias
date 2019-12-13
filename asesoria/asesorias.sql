@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 19-11-2019 a las 06:39:37
+-- Tiempo de generación: 13-12-2019 a las 07:04:54
 -- Versión del servidor: 10.4.8-MariaDB
 -- Versión de PHP: 7.3.10
 
@@ -21,8 +21,7 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `asesorias`
 --
-CREATE DATABASE asesorias;
-use asesorias;
+
 -- --------------------------------------------------------
 
 --
@@ -62,7 +61,9 @@ CREATE TABLE `AsesoriaAltas` (
 --
 
 INSERT INTO `AsesoriaAltas` (`AsesoriaAltaID`, `AsesoriaDatoID`, `Asesorado`) VALUES
-(1, 1, 1);
+(1, 1, 1),
+(75, 13, 4),
+(76, 13, 1);
 
 -- --------------------------------------------------------
 
@@ -85,7 +86,9 @@ CREATE TABLE `AsesoriaDatos` (
 --
 
 INSERT INTO `AsesoriaDatos` (`AsesoriaDatoID`, `AsesorID`, `MateriaID`, `SalonID`, `Fecha`, `HoraInicio`, `HoraFin`) VALUES
-(1, 3, 1, 1, '2019-11-13', '09:00:00', '10:00:00');
+(1, 7, 7, 1, '2019-11-13', '09:00:00', '10:00:00'),
+(13, 5, 4, 3, '2019-12-22', '10:00:00', '11:00:00'),
+(14, 6, 8, 5, '2019-12-22', '12:00:00', '13:00:00');
 
 -- --------------------------------------------------------
 
@@ -153,7 +156,13 @@ INSERT INTO `Materias` (`MateriaID`, `Nombre`, `Creditos`, `CarreraID`) VALUES
 (1, 'CALCULO DIFERENCIAL', '5', 1),
 (2, 'POO', '5', 1),
 (3, 'PROLOG', '4', 1),
-(4, 'ECUACIONES DIFERENCIALES', '5', 1);
+(4, 'ECUACIONES DIFERENCIALES', '5', 1),
+(5, 'TALLER DE BASE DE DATOS', '5', 1),
+(6, 'ALGEBRA LINEAL', '5', 1),
+(7, 'ADMINISTRACION DE REDES', '5', 1),
+(8, 'TERMODINAMICA', '5', 2),
+(9, 'ELECTROMAGNETISMO', '4', 2),
+(10, 'ESTADISTICA Y CONTROL DE CALIDAD', '5', 2);
 
 -- --------------------------------------------------------
 
@@ -180,7 +189,10 @@ INSERT INTO `Personas` (`PersonaID`, `Nombre`, `Apellido`, `Edad`, `Sexo`, `Corr
 (1, 'Alvaro', 'Ramos', 22, 'H', 'alvRa@hotmail.com', '6675326587', 3),
 (2, 'Carlos', 'Rios', 21, 'H', 'carlos123df@gmail.com', '6672226943', 2),
 (3, 'Marco', 'Romo', 45, 'H', 'marcoitc@itculiacan.edu.mx', '6677385432', 1),
-(4, 'Alejandra', 'Madrid', 22, 'M', 'ale@gmail.com', '6675382949', 4);
+(4, 'Alejandra', 'Madrid', 22, 'M', 'ale@gmail.com', '6675382949', 4),
+(5, 'Juan Leoncio', 'Nuñez Armenta', 40, 'H', 'leoncio@hotmail.com', '6675483920', 5),
+(6, 'Evangelina', 'Avila Gaxiola', 40, 'M', 'eva930@gmail.com', '6676942854', 6),
+(7, 'Pedro', 'Villa Casas', 40, 'H', 'pedrocasas@hotmail.com', '6642658745', 7);
 
 -- --------------------------------------------------------
 
@@ -200,7 +212,10 @@ CREATE TABLE `Profesores` (
 --
 
 INSERT INTO `Profesores` (`ProfesorID`, `Rfc`, `PersonaID`, `DepartamentoID`) VALUES
-(1, 'MORC781123RM6', 3, 1);
+(1, 'MORC781123RM6', 3, 1),
+(2, 'LOJA750714TV6', 5, 1),
+(3, 'AIGE760504MV8', 6, 4),
+(4, 'VICP8103049E6', 7, 1);
 
 -- --------------------------------------------------------
 
@@ -222,7 +237,9 @@ INSERT INTO `Salones` (`SalonID`, `Nombre`, `DepartamentoID`) VALUES
 (1, 'B1', 1),
 (2, 'B2', 1),
 (3, 'B5', 1),
-(4, 'C3', 1);
+(4, 'C3', 1),
+(5, 'D2', 4),
+(6, 'D5', 4);
 
 -- --------------------------------------------------------
 
@@ -241,10 +258,37 @@ CREATE TABLE `Usuarios` (
 --
 
 INSERT INTO `Usuarios` (`UsuarioID`, `Usuario`, `Contraseña`) VALUES
-(1, 'MORC781123RM6', '123'),
+(1, 'MORC781123RM6', '124'),
 (2, '15171192', '123'),
 (3, '15171193', '123'),
-(4, '17173853', '123');
+(4, '17173853', '123'),
+(5, 'sistemas', '123'),
+(6, 'bioquimica', '123'),
+(7, 'sistemas2', '123');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `vasesorias`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `vasesorias` (
+`AsesoriaDatoID` int(11)
+,`Asesor` varchar(91)
+,`Materia` varchar(50)
+,`Aula` varchar(2)
+,`Fecha` date
+,`Horario` varchar(23)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `vasesorias`
+--
+DROP TABLE IF EXISTS `vasesorias`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`` SQL SECURITY DEFINER VIEW `vasesorias`  AS  select `ad`.`AsesoriaDatoID` AS `AsesoriaDatoID`,concat_ws(' ',`p`.`Nombre`,`p`.`Apellido`) AS `Asesor`,`m`.`Nombre` AS `Materia`,`s`.`Nombre` AS `Aula`,`ad`.`Fecha` AS `Fecha`,concat_ws(' - ',`ad`.`HoraInicio`,`ad`.`HoraFin`) AS `Horario` from (((`asesoriadatos` `ad` join `personas` `p` on(`ad`.`AsesorID` = `p`.`PersonaID`)) join `materias` `m` on(`ad`.`MateriaID` = `m`.`MateriaID`)) join `salones` `s` on(`ad`.`SalonID` = `s`.`SalonID`)) ;
 
 --
 -- Índices para tablas volcadas
@@ -263,8 +307,8 @@ ALTER TABLE `Alumnos`
 --
 ALTER TABLE `AsesoriaAltas`
   ADD PRIMARY KEY (`AsesoriaAltaID`),
-  ADD UNIQUE KEY `Asesorado` (`Asesorado`) USING BTREE,
-  ADD KEY `AsesoriaDatoID` (`AsesoriaDatoID`);
+  ADD KEY `AsesoriaDatoID` (`AsesoriaDatoID`),
+  ADD KEY `Asesorado` (`Asesorado`) USING BTREE;
 
 --
 -- Indices de la tabla `AsesoriaDatos`
@@ -337,13 +381,13 @@ ALTER TABLE `Alumnos`
 -- AUTO_INCREMENT de la tabla `AsesoriaAltas`
 --
 ALTER TABLE `AsesoriaAltas`
-  MODIFY `AsesoriaAltaID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `AsesoriaAltaID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- AUTO_INCREMENT de la tabla `AsesoriaDatos`
 --
 ALTER TABLE `AsesoriaDatos`
-  MODIFY `AsesoriaDatoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `AsesoriaDatoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `Carreras`
@@ -361,31 +405,31 @@ ALTER TABLE `Departamentos`
 -- AUTO_INCREMENT de la tabla `Materias`
 --
 ALTER TABLE `Materias`
-  MODIFY `MateriaID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `MateriaID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `Personas`
 --
 ALTER TABLE `Personas`
-  MODIFY `PersonaID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `PersonaID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `Profesores`
 --
 ALTER TABLE `Profesores`
-  MODIFY `ProfesorID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ProfesorID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `Salones`
 --
 ALTER TABLE `Salones`
-  MODIFY `SalonID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `SalonID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `Usuarios`
 --
 ALTER TABLE `Usuarios`
-  MODIFY `UsuarioID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `UsuarioID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Restricciones para tablas volcadas
